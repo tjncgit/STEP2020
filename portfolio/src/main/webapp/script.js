@@ -26,3 +26,15 @@ function addRandomGreeting() {
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
 }
+
+function getRandomQuoteUsingArrowFunctions() {
+  fetch('/data').then(response => response.text()).then((hello_name) => {
+    document.getElementById('name-container').innerText = hello_name;
+  });
+}
+
+async function getHelloNameUsingAsyncAwait() {
+  const response = await fetch('/data');
+  const hello_name = await response.text();
+  document.getElementById('name-container').innerText = hello_name;
+}
