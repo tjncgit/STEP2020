@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
-  <body>
+  <body onload="getComments()">
     <div id="content">
       <h1>Tamajong Nchukwi</h1>
       <p>My name is Tamajong Nchukwi, I am a rising junior at the Illustrious Morgan State University</p>
@@ -29,8 +29,15 @@
                 <li>Tokyo</li>
                 <img src='/images/tokyo.jpg' width=500 height=300>>
             </ul>
-        <button onclick='getComments()'> Fetch comments from data servlet</button>
-        <ul id='comments-container'></ul>
+        <h2>Comments</h2>
+        <div id='comments-container'>
+        </div>
+      </div>
+      <div>
+         <form action="/data" method="post">
+         <input type="text" name="input-comment" >
+         <input type="submit" value="submit"/>
+         </form>
       </div>
     </div>
   </body>
