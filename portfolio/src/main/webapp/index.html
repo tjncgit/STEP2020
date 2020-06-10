@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
-  <body onload="getComments()" >
+  <body onload="getComments()">
     <div id="content">
       <h1>Tamajong Nchukwi</h1>
       <p>My name is Tamajong Nchukwi, I am a rising junior at the Illustrious Morgan State University</p>
@@ -29,22 +29,24 @@
                 <li>Tokyo</li>
                 <img src='/images/tokyo.jpg' width=500 height=300>>
             </ul>
-        <div>
-          <p id="login">Click<a href="/Users"> here</a> to enter comments</p>
+        <div id="login">
+            <script>
+                getStatus()
+            </script>
+            <a id="anchor" href="/Users"></a>
         </div>
         <h2>Comments</h2>
         <div id='comments-container'>
         </div>
-      <div>
-                  
-        <!-- <form action="/data" method="POST"  >
+      <div>           
+        <form action="/data" method="POST"  >
          <label for="input-comments">Enter a comment:</label>
          <input type="text" name="input-comment" id="param2" value="enter comment">
         <br/>
          <label for="max-comments">Max number of comments:</label> 
-          <input type="number" name="max-comments" id="param1" min="0" value="0">
-         <input type="submit"  value="submit" > -->
-         <!-- </form> -->
+          <input type="number" name="max-comments" id="param1" min="0" value="0"></br>
+         <input type="submit"  value="submit" >
+        </form>
       </div>
   </body>
 </html>

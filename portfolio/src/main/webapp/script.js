@@ -34,18 +34,19 @@ function getParameters(){
     console.log(param2);
 
     return [param1, param2];
-    
-    
+ 
 }
 
+// function createForm(){
+//     fetch('/data',{method:'POST'})
+//     .then(response => response.text())
+//     .then((max) =>{
+//         console.log(max)
+//     });
+// }
+
 function getComments() {
-  var param1 = document.getElementById("param1").value;
-  var param2 = document.getElementById("param2").value;
-  
-  console.log(param1);
-  console.log(param2);
-  
-//
+
   fetch('/data')  // sends a request to /my-data-url
   .then(response => response.json()) // parses the response as JSON
   .then((comments) => { // now we can reference the fields in myObject!
@@ -65,5 +66,38 @@ function getComments() {
 function createListElement(text) {
   const liElement = document.createElement('p');
   liElement.innerText = text;
+
   return liElement;
+}
+function createLink(text) {
+  const liElement = document.createElement('a');
+  liElement.innerText = text;
+  return liElement;
+}
+
+function getStatus(){
+    fetch('/status', {method: 'GET'})
+    .then(response => response.text())
+    .then((status) => {
+        console.log(status)
+
+        var i;
+        if(status == 0) {
+            for(i=0; i<2; i++){
+        input_elems = document.getElementsByTagName("input")[i];
+        type_value = input_elems.getAttributeNode("type");
+        type_value.value = "hidden";
+        console.log(type_value);
+        }
+        link = document.getElementById("anchor");
+        link.innerText="Log in";} 
+        else {
+        link = document.getElementById("anchor");
+        link.innerText="Log Out";
+        type_value = link.getAttributeNode("href");
+        type_value.value = "/logout";
+        console.log(type_value);
+        }
+    });
+
 }
