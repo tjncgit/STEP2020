@@ -27,14 +27,27 @@ function addRandomGreeting() {
   greetingContainer.innerText = greeting;
 }
 
-function getRandomQuoteUsingArrowFunctions() {
-  fetch('/data').then(response => response.text()).then((hello_name) => {
-    document.getElementById('name-container').innerText = hello_name;
-  });
+function getComments() {
+  fetch('/data')  // sends a request to /my-data-url
+  .then(response => response.json()) // parses the response as JSON
+  .then((myObject) => { // now we can reference the fields in myObject!
+    console.log(myObject[0]);
+    console.log(myObject[1]);
+    console.log(myObject[2]);
+
+    const listComments = document.getElementById('comments-container');
+    listComments.innerHTML= '';
+    listComments.appendChild(
+        createListElement(myObject[0]));
+    listComments.appendChild(
+        createListElement(myObject[1]));
+    listComments.appendChild(
+        createListElement(myObject[2]));
+});
 }
 
-async function getHelloNameUsingAsyncAwait() {
-  const response = await fetch('/data');
-  const hello_name = await response.text();
-  document.getElementById('name-container').innerText = hello_name;
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
 }
