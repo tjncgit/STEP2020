@@ -34,36 +34,24 @@ function getParameters(){
     console.log(param2);
 
     return [param1, param2];
- 
 }
 
-// function createForm(){
-//     fetch('/data',{method:'POST'})
-//     .then(response => response.text())
-//     .then((max) =>{
-//         console.log(max)
-//     });
-// }
-
 function getComments() {
-
   fetch('/data')  // sends a request to /my-data-url
   .then(response => response.json()) // parses the response as JSON
   .then((comments) => { // now we can reference the fields in myObject!
     console.log(comments);
 
-
     const listComments = document.getElementById('comments-container');
     listComments.innerHTML= '';
     comments.forEach((comment) => {
-        listComments.appendChild(createListElement(comment));
+        listComments.appendChild(createParaElement(comment));
         listComments.appendChild(document.createElement('hr'));
-
     });
 });
 }
 
-function createListElement(text) {
+function createParaElement(text) {
   const liElement = document.createElement('p');
   liElement.innerText = text;
 
@@ -80,17 +68,16 @@ function getStatus(){
     .then(response => response.text())
     .then((status) => {
         console.log(status)
+        var input_elems = document.getElementsByTagName("input");
 
-        var i;
         if(status == 0) {
-            for(i=0; i<2; i++){
-        input_elems = document.getElementsByTagName("input")[i];
-        type_value = input_elems.getAttributeNode("type");
+        for(elem of input_elems){ //Hide the input elements until the user logs in
+        type_value = elem.getAttributeNode("type");
         type_value.value = "hidden";
         console.log(type_value);
         }
         link = document.getElementById("anchor");
-        link.innerText="Log in";} 
+        link.innerText="Log in To Comment";} 
         else {
         link = document.getElementById("anchor");
         link.innerText="Log Out";
@@ -99,5 +86,12 @@ function getStatus(){
         console.log(type_value);
         }
     });
+}
 
+
+function createMap() {
+  const smap = new google.maps.Map(document.getElementById("map"), {
+    center: { lat: -34.397, lng: 150.644 },
+    zoom: 8
+  });
 }
