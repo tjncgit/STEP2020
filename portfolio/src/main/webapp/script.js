@@ -27,11 +27,30 @@ function addRandomGreeting() {
   greetingContainer.innerText = greeting;
 }
 
+function getParameters(){
+    let param1 = document.getElementById('param1').value,
+     param2 = document.getElementById('param2').value;
+    console.log(param1);
+    console.log(param2);
+
+    return [param1, param2];
+    
+    
+}
+
 function getComments() {
+  var param1 = document.getElementById("param1").value;
+  var param2 = document.getElementById("param2").value;
+  
+  console.log(param1);
+  console.log(param2);
+  
+//
   fetch('/data')  // sends a request to /my-data-url
   .then(response => response.json()) // parses the response as JSON
   .then((comments) => { // now we can reference the fields in myObject!
     console.log(comments);
+
 
     const listComments = document.getElementById('comments-container');
     listComments.innerHTML= '';
