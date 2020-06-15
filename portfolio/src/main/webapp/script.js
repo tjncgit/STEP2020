@@ -175,25 +175,55 @@ function createMap() {
         ]
   });
 
-  const birthMarker = new google.maps.Marker({
-    position: {lat: 5.9631, lng: 10.1591},
-    map: map,
-    title: 'This is where I was born'
+  coords = [5.9631, 10.1591];
+  const birthMarker = addMarker(coords[0], coords[1], map);
+  content = 'Cameroon, on the Gulf of Guinea, is a Central African country of varied terrain and wildlife. Its inland capital, Yaoundé, and its biggest city, the seaport Douala, are transit points to ecotourism sites as well as beach resorts like Kribi – near the Chutes de la Lobé waterfalls, which plunge directly into the sea – and Limbe, where the Limbe Wildlife Centre houses rescued primates.';
+  const birthInfoWindow = addInfoWindow(content);
+  birthMarker.addListener('click',function(){
+          birthInfoWindow.open(map, birthMarker);
   });
 
-  travelLocations = {
-    "duabi":[25.2048, 55.2708],
-    "bora bora":[16.5004, 151.7415],
-    'tokyo':[35.6804, 139.7690]
-  }
+  locations = [
+    [25.2048, 55.2708],
+    [16.5004, 151.7415],
+    [35.6804, 139.7690]
+  ]
+  
+  const dubaiMarker = addMarker(locations[0][0], locations[0][1], map);
+  content_2 = "Dubai is a city and emirate in the United Arab Emirates known for luxury shopping, ultramodern architecture and a lively nightlife scene. Burj Khalifa, an 830m-tall tower, dominates the skyscraper-filled skyline. At its foot lies Dubai Fountain, with jets and lights choreographed to music. On artificial islands just offshore is Atlantis, The Palm, a resort with water and marine-animal parks.";
+  const dubaiInfoWindow = addInfoWindow(content_2);
+  dubaiMarker.addListener('click',function(){
+          dubaiInfoWindow.open(map, dubaiMarker);
+  });
 
-  for(let [key, value] of Object.entries(travelLocations) ){
-      var latLang = new google.maps.LatLng(value[0],value[1]);
-      var marker = new google.maps.Marker({
-          position: latLang,
-          map : map,
-          title: key
-      });
-      console.log();
-  }
+  const boraMarker = addMarker(locations[1][0], locations[1][1], map);
+  content_3 = "Bora Bora is a small South Pacific island northwest of Tahiti in French Polynesia. Surrounded by sand-fringed motus (islets) and a turquoise lagoon protected by a coral reef, it’s known for its scuba diving. It's also a popular luxury resort destination where some guest bungalows are perched over the water on stilts. At the island's center rises Mt. Otemanu, a 727m dormant volcano.";
+  const boraInfoWindow = addInfoWindow(content_3);
+  boraMarker.addListener('click',function(){
+          boraInfoWindow.open(map, boraMarker);
+  });
+
+  const japanMarker = addMarker(locations[2][0], locations[2][1], map);
+  content_4 = "Japan is an island country in East Asia located in the northwest Pacific Ocean. It borders the Sea of Japan to the west, and extends from the Sea of Okhotsk in the north to the East China Sea and Taiwan in the south.";
+  const japanInfoWindow = addInfoWindow(content_4);
+  japanMarker.addListener('click',function(){
+          japanInfoWindow.open(map, japanMarker);
+  });
+         
+}
+
+function addMarker(coord1, coord2, mMap ){
+    var marker = new google.maps.Marker({
+    position: {lat: coord1, lng: coord2},
+    map: mMap
+  });
+
+  return marker;
+}
+
+function addInfoWindow(content){
+  var infoWindow = new google.maps.InfoWindow({
+        content: content
+        });
+  return infoWindow;
 }
