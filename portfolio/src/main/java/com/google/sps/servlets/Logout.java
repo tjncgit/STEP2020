@@ -44,7 +44,12 @@ public class Logout extends HttpServlet {
             String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
             response.sendRedirect(logoutUrl);
         }else{
-            response.getWriter().println("<p> You are now been logged out</p>");
+            String urlToLogin = "/Users";
+            String home = "/index.html";
+            String loginURL = userService.createLoginURL(urlToLogin);
+            response.getWriter().println("<p> You have been logged out</p></br></br>");
+            response.getWriter().println("<p> Login <a href=\"" + loginURL + "\">here</a> </p> <br>");
+            response.getWriter().println("<p> Return to <a href=\"" + home + "\">Portfolio Page</a></p>");
         }
 
         
