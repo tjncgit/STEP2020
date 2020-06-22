@@ -58,10 +58,8 @@ public class DataServlet extends HttpServlet {
      {
       String comment = (String) commentEntity.getProperty("comment");
       String email = (String) commentEntity.getProperty("email");
-      comments.add(email + ":\n" + "\n  " + comment);
-        
+      comments.add(String.format("%s\n\n %s", email, comment));
     }
-
     String json = convertToJsonUsingGson(comments);
     response.setContentType("application/json");
     response.getWriter().println(json);
@@ -75,7 +73,6 @@ public class DataServlet extends HttpServlet {
     int max = maxComments(request);
     String text = getParameter(request, "input-comment", "");
 
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("comment", text);
     commentEntity.setProperty("email", userEmail);
@@ -90,10 +87,10 @@ public class DataServlet extends HttpServlet {
       String maxCommentsString = getParameter(request, "max-comments","");
       int maxComments;
       try {
-       maxComments = Integer.parseInt(maxCommentsString);
+        maxComments = Integer.parseInt(maxCommentsString);
     } catch (NumberFormatException e) {
-      System.err.println("Could not convert to int: " + maxCommentsString);
-      return -1;
+        System.err.println("Could not convert to int: " + maxCommentsString);
+        return -1;
     }
     return maxComments;
   }

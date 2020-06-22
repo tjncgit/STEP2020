@@ -32,20 +32,21 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/status")
 public class LoginStatus extends HttpServlet {
-
+  Map<String, Boolean> userLoginBool = new HashMap<String, Boolean>();
   private String loginStatus;
+  private UserService userService = UserServiceFactory.getUserService();
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException{
         response.setContentType("text/html");
-        UserService userService = UserServiceFactory.getUserService();
-        if(userService.isUserLoggedIn()){
+        
+        if(userService.isUserLoggedIn()) {
+            userLoginBool.put(userEmail, true);
             loginStatus = "1";
         }else{
             loginStatus = "0";
         }
 
         response.getWriter().println(loginStatus);
-
-  }
-  
+  } 
 }

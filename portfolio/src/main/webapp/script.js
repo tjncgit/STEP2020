@@ -73,18 +73,17 @@ function getStatus(){
 
         if(status == 0) {
         for(elem of input_elems){ //Hide the input elements until the user logs in
-        type_value = elem.getAttributeNode("type");
-        type_value.value = "hidden";
-        console.log(type_value);
+            type_value = elem.getAttributeNode("type");
+            type_value.value = "hidden";
         }
-        link = document.getElementById("anchor");
-        link.innerText="Log in To Comment";} 
+            link = document.getElementById("anchor");
+            link.innerText="Log in To Comment";
+            } 
         else {
-        link = document.getElementById("anchor");
-        link.innerText="Log Out";
-        type_value = link.getAttributeNode("href");
-        type_value.value = "/logout";
-        console.log(type_value);
+            link = document.getElementById("anchor");
+            link.innerText="Log Out";
+            type_value = link.getAttributeNode("href");
+            type_value.value = "/logout";
         }
     });
 }
