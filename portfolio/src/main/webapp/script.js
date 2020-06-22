@@ -71,15 +71,14 @@ function getStatus(){
         console.log(status)
         var input_elems = document.getElementsByTagName("input");
 
-        if(status == 0) {
-        for(elem of input_elems){ //Hide the input elements until the user logs in
+        if (status == 0) {
+        for (elem of input_elems) { //Hide the input elements until the user logs in
             type_value = elem.getAttributeNode("type");
             type_value.value = "hidden";
         }
             link = document.getElementById("anchor");
             link.innerText="Log in To Comment";
-            } 
-        else {
+        } else {
             link = document.getElementById("anchor");
             link.innerText="Log Out";
             type_value = link.getAttributeNode("href");
