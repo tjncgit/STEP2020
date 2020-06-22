@@ -57,12 +57,8 @@ public class Users extends HttpServlet {
       response.getWriter().println("<p>Logout <a href=\"" + logoutUrl + "\">here</a>.</p>");
     } else {
       String loginUrl = userService.createLoginURL("/Users");
-
-    //   response.getWriter().println("<p>Hello stranger.</p>");
-    //   response.getWriter().println("<p>Login <a href=\"" + loginUrl + "\">here</a>.</p>");
       response.sendRedirect(loginUrl);
     }
-
     // Everybody can see the messages
     response.getWriter().println("<ul>");
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -73,8 +69,6 @@ public class Users extends HttpServlet {
       String email = (String) entity.getProperty("email");
       response.getWriter().println("<li>" + email + ": " + text + "</li>");
     }
-    response.getWriter().println("</ul>");
+      response.getWriter().println("</ul>");
     }
  }
-
-
