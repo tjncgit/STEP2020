@@ -25,6 +25,8 @@ import com.google.appengine.api.datastore.FetchOptions;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -46,7 +48,7 @@ public class DataServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     int max = maxComments(request);
 
-    Query query = new Query("Comment").addSort("comment", SortDirection.DESCENDING);
+    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
 
     PreparedQuery results = datastore.prepare(query);
 
@@ -54,6 +56,8 @@ public class DataServlet extends HttpServlet {
     for (Entity commentEntity : results.asIterable()) {
       String comment = (String) commentEntity.getProperty("comment");
       commentList.add(comment);
+      String email = (String) commentEntity.getProperty("email");
+      comments.add(email + ":\n" + "\n  " + comment);
     }
 
     String json = convertToJsonUsingGson(commentList);
@@ -64,15 +68,19 @@ public class DataServlet extends HttpServlet {
 @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form.
+    UserService userService = UserServiceFactory.getUserService();
+    String userEmail = userService.getCurrentUser().getEmail();
     int max = maxComments(request);
     String text = getParameter(request, "input-comment", "");
 
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("comment", text);
-
+    commentEntity.setProperty("email", userEmail);
+    commentEntity.setProperty("timestamp", System.currentTimeMillis());
     datastore.put(commentEntity);
+
     // Redirect back to the HTML page.
-    response.getWriter().println(max);
     response.sendRedirect("/index.html");
   }
 
@@ -85,7 +93,6 @@ public class DataServlet extends HttpServlet {
         System.err.println("Could not convert to int: " + maxCommentsString);
         return -1;
     }
-
     return maxComments;
   }
 
@@ -108,7 +115,3 @@ public class DataServlet extends HttpServlet {
     return value;
   }
 }
-
-
-
-

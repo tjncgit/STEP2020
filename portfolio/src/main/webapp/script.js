@@ -37,14 +37,6 @@ function getParameters(){
  
 }
 
-// function createForm(){
-//     fetch('/data',{method:'POST'})
-//     .then(response => response.text())
-//     .then((max) =>{
-//         console.log(max)
-//     });
-// }
-
 function getComments() {
 
   fetch('/data')  // sends a request to /my-data-url

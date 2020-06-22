@@ -43,9 +43,6 @@ public class LoginStatus extends HttpServlet {
         }else{
             loginStatus = "0";
         }
-
         response.getWriter().println(loginStatus);
-
   }
-  
 }
