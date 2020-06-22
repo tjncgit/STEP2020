@@ -30,51 +30,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/Users")
+@WebServlet("/users")
 public class Users extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html;");
     response.getWriter().println("<h1>Toxic Comment Section</h1>");
-
+    
     // Only logged-in users can see the form
     UserService userService = UserServiceFactory.getUserService();
     if (userService.isUserLoggedIn()) {
-      response.getWriter().println("<p>Hello " + userService.getCurrentUser().getEmail() + "!</p>");
-      response.getWriter().println("<p>Type a message and click submit:</p>");
-      response.getWriter().println("<form method=\"POST\" action=\"/data\">");
-      response.getWriter().println("<input type=\"number\" name=\"max-comments\" id=\"param1\"><br/>");
-      response.getWriter().println("<input type=\"text\" name=\"input-comment\" id=\"param2\">");
-      response.getWriter().println("<br/>");
-      response.getWriter().println("<button>Submit</button>");
-      response.getWriter().println("</form>");
-
+      response.sendRedirect("index.html");
       String userEmail = userService.getCurrentUser().getEmail();
-      String urlToRedirectToAfterUserLogsOut = "/index.html";
-      String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
+      String logoutUrl = userService.createLogoutURL("/index.html");
 
       response.getWriter().println("<p>Logout <a href=\"" + logoutUrl + "\">here</a>.</p>");
     } else {
-      String loginUrl = userService.createLoginURL("/Users");
-
-    //   response.getWriter().println("<p>Hello stranger.</p>");
-    //   response.getWriter().println("<p>Login <a href=\"" + loginUrl + "\">here</a>.</p>");
+      String loginUrl = userService.createLoginURL("/users");
+      
       response.sendRedirect(loginUrl);
     }
-
-    // Everybody can see the messages
-    response.getWriter().println("<ul>");
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query = new Query("Message").addSort("timestamp", SortDirection.DESCENDING);
-    PreparedQuery results = datastore.prepare(query);
-    for (Entity entity : results.asIterable()) {
-      String text = (String) entity.getProperty("text");
-      String email = (String) entity.getProperty("email");
-      response.getWriter().println("<li>" + email + ": " + text + "</li>");
-    }
-    response.getWriter().println("</ul>");
-    }
+  } 
  }
-
-

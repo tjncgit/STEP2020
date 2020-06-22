@@ -36,6 +36,9 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
   private ArrayList<String> comments;
+  private Entity commentEntity = new Entity("Comment");
+  private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+  
   @Override
   public void init() {
     comments = new ArrayList<String>();
@@ -44,22 +47,17 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     int max = maxComments(request);
-
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
-    ArrayList<String> comments = new ArrayList<String>();
-    for (Entity commentEntity : results.asIterable())
-     {
+    ArrayList<String> commentList = new ArrayList<String>();
+    for (Entity commentEntity : results.asIterable()) {
       String comment = (String) commentEntity.getProperty("comment");
       String email = (String) commentEntity.getProperty("email");
-      comments.add(email + ":\n" + "\n  " + comment);
-        
+      commentList.add(String.format("%s\n\n %s", email, comment));
     }
 
-    String json = convertToJsonUsingGson(comments);
+    String json = convertToJsonUsingGson(commentList);
     response.setContentType("application/json");
     response.getWriter().println(json);
   }
@@ -72,8 +70,6 @@ public class DataServlet extends HttpServlet {
     int max = maxComments(request);
     String text = getParameter(request, "input-comment", "");
 
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("comment", text);
     commentEntity.setProperty("email", userEmail);
     commentEntity.setProperty("timestamp", System.currentTimeMillis());
@@ -86,13 +82,14 @@ public class DataServlet extends HttpServlet {
   private int maxComments(HttpServletRequest request) throws IOException {
       String maxCommentsString = getParameter(request, "max-comments","");
       int maxComments;
+      
       try {
-       maxComments = Integer.parseInt(maxCommentsString);
+        maxComments = Integer.parseInt(maxCommentsString);
     } catch (NumberFormatException e) {
-      System.err.println("Could not convert to int: " + maxCommentsString);
-      return -1;
+        System.err.println("Could not convert to int: " + maxCommentsString);
+        return -1;
     }
-    return maxComments;
+      return maxComments;
   }
 
 
@@ -114,7 +111,3 @@ public class DataServlet extends HttpServlet {
     return value;
   }
     }
-
-
-
-

@@ -40,51 +40,48 @@ function getComments() {
   fetch('/data')  // sends a request to /my-data-url
   .then(response => response.json()) // parses the response as JSON
   .then((comments) => { // now we can reference the fields in myObject!
-    console.log(comments);
 
     const listComments = document.getElementById('comments-container');
     listComments.innerHTML= '';
     comments.forEach((comment) => {
-        listComments.appendChild(createParaElement(comment));
+        listComments.appendChild(createParagraphElement(comment));
         listComments.appendChild(document.createElement('hr'));
     });
 });
 }
 
-function createParaElement(text) {
-  const liElement = document.createElement('p');
-  liElement.innerText = text;
+function createParagraphElement(text) {
+  const paragraphElement = document.createElement('p');
+  paragraphElement.innerText = text;
 
-  return liElement;
+  return paragraphElement;
 }
 
 function createLink(text) {
-  const liElement = document.createElement('a');
-  liElement.innerText = text;
-  return liElement;
+  const anchorElement = document.createElement('a');
+  anchorElement.innerText = text;
+  return anchorElement;
 }
 
 function getStatus(){
-    fetch('/status', {method: 'GET'})
+    fetch('/login-status', {method: 'GET'})
     .then(response => response.text())
     .then((status) => {
-        console.log(status)
+        console.log(status);
         var input_elems = document.getElementsByTagName("input");
 
         if(status == 0) {
-        for(elem of input_elems){ //Hide the input elements until the user logs in
-        type_value = elem.getAttributeNode("type");
-        type_value.value = "hidden";
-        console.log(type_value);
-        }
-        link = document.getElementById("anchor");
-        link.innerText="Log in To Comment";} 
-        else {
-        link = document.getElementById("anchor");
-        link.innerText="Log Out";
-        type_value = link.getAttributeNode("href");
-        type_value.value = "/logout";
-        console.log(type_value);
+            for(elem of input_elems){ //Hide the input elements until the user logs in
+                type_value = elem.getAttributeNode("type");
+                type_value.value = "hidden";
+            }
+            link = document.getElementById("anchor");
+            link.innerText="Log in To Comment";
+        } else {
+            link = document.getElementById("anchor");
+            link.innerText="Log Out";
+            type_value = link.getAttributeNode("href");
+            type_value.value = "/logout";
         }
     });
 }

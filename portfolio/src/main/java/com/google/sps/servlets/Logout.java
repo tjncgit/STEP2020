@@ -37,23 +37,17 @@ public class Logout extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException{
         response.setContentType("text/html");
         UserService userService = UserServiceFactory.getUserService();
-        // String userEmail = userService.getCurrentUser().getEmail();
 
         if(userService.isUserLoggedIn()){
-            String urlToRedirectToAfterUserLogsOut = "/logout";
-            String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
+            String logoutUrl = userService.createLogoutURL("/logout");
             response.sendRedirect(logoutUrl);
         }else{
-            String urlToLogin = "/Users";
+            String urlToLogin = "/users";
             String home = "/index.html";
             String loginURL = userService.createLoginURL(urlToLogin);
             response.getWriter().println("<p> You have been logged out</p></br></br>");
             response.getWriter().println("<p> Login <a href=\"" + loginURL + "\">here</a> </p> <br>");
             response.getWriter().println("<p> Return to <a href=\"" + home + "\">Portfolio Page</a></p>");
         }
-
-        
-
   }
-  
 }
