@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.FetchOptions;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,16 +36,16 @@ public class DataServlet extends HttpServlet {
   private ArrayList<String> comments;
   private DatastoreService datastore;
 
-
   @Override
   public void init() {
     comments = new ArrayList<String>();
     datastore = DatastoreServiceFactory.getDatastoreService();
-
   }
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    int max = maxComments(request);
+
     Query query = new Query("Comment").addSort("comment", SortDirection.DESCENDING);
 
     PreparedQuery results = datastore.prepare(query);
@@ -53,8 +54,7 @@ public class DataServlet extends HttpServlet {
     for (Entity commentEntity : results.asIterable()) {
       String comment = (String) commentEntity.getProperty("comment");
       commentList.add(comment);
-    }
-    
+    }    
     String json = convertToJsonUsingGson(commentList);
     response.setContentType("application/json;");
     response.getWriter().println(json);
@@ -63,16 +63,31 @@ public class DataServlet extends HttpServlet {
 @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form.
+    int max = maxComments(request);
     String text = getParameter(request, "input-comment", "");
 
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("comment", text);
 
     datastore.put(commentEntity);
-
     // Redirect back to the HTML page.
+    response.getWriter().println(max);
     response.sendRedirect("/index.html");
   }
+
+  private int maxComments(HttpServletRequest request) throws IOException {
+      String maxCommentsString = getParameter(request, "max-comments","");
+      int maxComments;
+      try {
+       maxComments = Integer.parseInt(maxCommentsString);
+    } catch (NumberFormatException e) {
+      System.err.println("Could not convert to int: " + maxCommentsString);
+      return -1;
+    }
+
+    return maxComments;
+  }
+
 
   private String convertToJsonUsingGson(ArrayList<String> commentList) {
     Gson gson = new Gson();
@@ -91,5 +106,8 @@ public class DataServlet extends HttpServlet {
     }
     return value;
   }
-}
+    }
+
+
+
 
