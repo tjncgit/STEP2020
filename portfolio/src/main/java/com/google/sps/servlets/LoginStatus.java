@@ -25,28 +25,29 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import java.io.IOException;
+import java.util.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/status")
+@WebServlet("/login-status")
 public class LoginStatus extends HttpServlet {
   Map<String, Boolean> userLoginBool = new HashMap<String, Boolean>();
-  private String loginStatus;
   private UserService userService = UserServiceFactory.getUserService();
-
+  boolean statusBool;
+  
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException{
-        response.setContentType("text/html");
-        
-        if(userService.isUserLoggedIn()) {
-            userLoginBool.put(userEmail, true);
-            loginStatus = "1";
-        }else{
-            loginStatus = "0";
-        }
+        response.setContentType("application/json");
 
-        response.getWriter().println(loginStatus);
-  } 
+        if(userService.isUserLoggedIn()){
+            String userEmail = userService.getCurrentUser().getEmail();
+            userLoginBool.put(userEmail, true);
+            statusBool = userLoginBool.get(userEmail);
+        } else {
+            statusBool = false;
+        }
+        response.getWriter().println(statusBool);
+  }
 }
