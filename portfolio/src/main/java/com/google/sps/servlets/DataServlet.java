@@ -68,7 +68,6 @@ public class DataServlet extends HttpServlet {
 
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("comment", text);
-
     datastore.put(commentEntity);
     // Redirect back to the HTML page.
     response.getWriter().println(max);
@@ -107,7 +106,3 @@ public class DataServlet extends HttpServlet {
     return value;
   }
     }
-
-
-
-
