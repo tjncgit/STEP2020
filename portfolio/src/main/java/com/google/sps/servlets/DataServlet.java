@@ -36,9 +36,12 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
   private ArrayList<String> comments;
+  private DatastoreService datastore;
+
   @Override
   public void init() {
     comments = new ArrayList<String>();
+    datastore = DatastoreServiceFactory.getDatastoreService();
   }
 
   @Override
@@ -114,7 +117,3 @@ public class DataServlet extends HttpServlet {
     return value;
   }
     }
-
-
-
-

@@ -45,13 +45,13 @@ function getComments() {
     const listComments = document.getElementById('comments-container');
     listComments.innerHTML= '';
     comments.forEach((comment) => {
-        listComments.appendChild(createParaElement(comment));
+        listComments.appendChild(createParagraphElement(comment));
         listComments.appendChild(document.createElement('hr'));
     });
 });
 }
 
-function createParaElement(text) {
+function createParagraphElement(text) {
   const liElement = document.createElement('p');
   liElement.innerText = text;
 
