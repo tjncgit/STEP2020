@@ -14,7 +14,9 @@
 
 package com.google.sps.servlets;
 
-
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,21 +30,32 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
   private ArrayList<String> comments;
+  private DatastoreService datastore;
 
   @Override
   public void init() {
     comments = new ArrayList<String>();
-    comments.add("Tamajong is the Greatest of all time");
-    comments.add("This is my first time coding in java");
-    comments.add("I hope my build does not fail");
+    datastore = DatastoreServiceFactory.getDatastoreService();
   }
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String json = convertToJsonUsingGson(comments);
-
-    response.setContentType("text/html;");
+    response.setContentType("application/json;");
     response.getWriter().println(json);
+  }
+
+@Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Get the input from the form.
+    String text = getParameter(request, "input-comment", "");
+
+    Entity commentEntity = new Entity("Comment");
+    commentEntity.setProperty("comment", text);
+    datastore.put(commentEntity);
+
+    // Redirect back to the HTML page.
+    response.sendRedirect("/index.html");
   }
 
   private String convertToJsonUsingGson(ArrayList<String> commentList) {
@@ -50,5 +63,16 @@ public class DataServlet extends HttpServlet {
     String json = gson.toJson(commentList);
     return json;
   }
-}
 
+    /**
+   * @return the request parameter, or the default value if the parameter
+   *         was not specified by the client
+   */
+  private String getParameter(HttpServletRequest request, String name, String defaultValue) {
+    String value = request.getParameter(name);
+    if (value == null) {
+      return defaultValue;
+    }
+    return value;
+  }
+}

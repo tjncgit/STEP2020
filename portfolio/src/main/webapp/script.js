@@ -30,24 +30,20 @@ function addRandomGreeting() {
 function getComments() {
   fetch('/data')  // sends a request to /my-data-url
   .then(response => response.json()) // parses the response as JSON
-  .then((myObject) => { // now we can reference the fields in myObject!
-    console.log(myObject[0]);
-    console.log(myObject[1]);
-    console.log(myObject[2]);
+  .then((comments) => { // now we can reference the fields in myObject!
+    console.log(comments);
 
     const listComments = document.getElementById('comments-container');
     listComments.innerHTML= '';
-    listComments.appendChild(
-        createListElement(myObject[0]));
-    listComments.appendChild(
-        createListElement(myObject[1]));
-    listComments.appendChild(
-        createListElement(myObject[2]));
+    comments.forEach((comment) => {
+        listComments.appendChild(createParagraphElement(comment));
+        listComments.appendChild(document.createElement('hr'));
+    });
 });
 }
 
-function createListElement(text) {
-  const liElement = document.createElement('li');
-  liElement.innerText = text;
-  return liElement;
+function createParagraphElement(text) {
+  const paraElement = document.createElement('p');
+  paraElement.innerText = text;
+  return paraElement;
 }
