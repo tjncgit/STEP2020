@@ -37,7 +37,7 @@ import javax.servlet.http.HttpServletResponse;
 public class DataServlet extends HttpServlet {
   private ArrayList<String> comments;
   private DatastoreService datastore;
-  
+
   @Override
   public void init() {
     comments = new ArrayList<String>();
