@@ -76,27 +76,27 @@ function createLink(text) {
 }
 
 function getStatus(){
-    fetch('/status', {method: 'GET'})
+    fetch('/login-status', {method: 'GET'})
     .then(response => response.text())
     .then((status) => {
         console.log(status)
 
-        var i;
+        var i = 0;
+        var input_elems = document.getElementsByTagName("input");
+
         if(status == 0) {
-            for(i=0; i<2; i++){
-        input_elems = document.getElementsByTagName("input")[i];
-        type_value = input_elems.getAttributeNode("type");
-        type_value.value = "hidden";
-        console.log(type_value);
+            for(elem of input_elems){ //Hide the input elements until the user logs in
+                type_value = elem.getAttributeNode("type");
+                type_value.value = "hidden";
         }
-        link = document.getElementById("anchor");
-        link.innerText="Log in";} 
+            link = document.getElementById("anchor");
+            link.innerText="Log in";
+            } 
         else {
-        link = document.getElementById("anchor");
-        link.innerText="Log Out";
-        type_value = link.getAttributeNode("href");
-        type_value.value = "/logout";
-        console.log(type_value);
+            link = document.getElementById("anchor");
+            link.innerText="Log Out";
+            type_value = link.getAttributeNode("href");
+            type_value.value = "/logout";
         }
     });
 

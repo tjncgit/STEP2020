@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/status")
+@WebServlet("/login-status")
 public class LoginStatus extends HttpServlet {
 
   private String loginStatus;
