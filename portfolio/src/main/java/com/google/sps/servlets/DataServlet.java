@@ -33,26 +33,29 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
   private ArrayList<String> comments;
+  private DatastoreService datastore;
+
 
   @Override
   public void init() {
     comments = new ArrayList<String>();
+    datastore = DatastoreServiceFactory.getDatastoreService();
+
   }
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Query query = new Query("Comment").addSort("comment", SortDirection.DESCENDING);
 
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
-    ArrayList<String> comments = new ArrayList<String>();
+    ArrayList<String> commentList = new ArrayList<String>();
     for (Entity commentEntity : results.asIterable()) {
       String comment = (String) commentEntity.getProperty("comment");
-      comments.add(comment);
+      commentList.add(comment);
     }
     
-    String json = convertToJsonUsingGson(comments);
+    String json = convertToJsonUsingGson(commentList);
     response.setContentType("application/json;");
     response.getWriter().println(json);
   }
@@ -65,7 +68,6 @@ public class DataServlet extends HttpServlet {
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("comment", text);
 
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
 
     // Redirect back to the HTML page.

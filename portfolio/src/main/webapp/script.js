@@ -36,15 +36,14 @@ function getComments() {
     const listComments = document.getElementById('comments-container');
     listComments.innerHTML= '';
     comments.forEach((comment) => {
-        listComments.appendChild(createListElement(comment));
+        listComments.appendChild(createParagraphElement(comment));
         listComments.appendChild(document.createElement('hr'));
-
     });
 });
 }
 
-function createListElement(text) {
-  const liElement = document.createElement('p');
-  liElement.innerText = text;
-  return liElement;
+function createParagraphElement(text) {
+  const paraElement = document.createElement('p');
+  paraElement.innerText = text;
+  return paraElement;
 }
