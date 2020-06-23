@@ -35,7 +35,6 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginStatus extends HttpServlet {
   Map<String, Boolean> userLoginBool = new HashMap<String, Boolean>();
   private UserService userService = UserServiceFactory.getUserService();
-  boolean statusBool;
   
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException{
@@ -44,7 +43,7 @@ public class LoginStatus extends HttpServlet {
         if(userService.isUserLoggedIn()){
             String userEmail = userService.getCurrentUser().getEmail();
             userLoginBool.put(userEmail, true);
-            statusBool = userLoginBool.get(userEmail);
+            boolean statusBool = userLoginBool.get(userEmail);
         } else {
             statusBool = false;
         }
