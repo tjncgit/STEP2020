@@ -44,9 +44,6 @@ public class LoginStatus extends HttpServlet {
             String userEmail = userService.getCurrentUser().getEmail();
             userLoginBool.put(userEmail, true);
             boolean statusBool = userLoginBool.get(userEmail);
-        } else {
-            statusBool = false;
-        }
+        } 
         response.getWriter().println(statusBool);
-  }
 }
