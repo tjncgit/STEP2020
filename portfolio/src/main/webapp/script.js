@@ -27,11 +27,23 @@ function addRandomGreeting() {
   greetingContainer.innerText = greeting;
 }
 
+function getParameters(){
+    let param1 = document.getElementById('param1').value,
+     param2 = document.getElementById('param2').value;
+    console.log(param1);
+    console.log(param2);
+
+    return [param1, param2];
+ 
+}
+
 function getComments() {
+
   fetch('/data')  // sends a request to /my-data-url
   .then(response => response.json()) // parses the response as JSON
   .then((comments) => { // now we can reference the fields in myObject!
     console.log(comments);
+
 
     const listComments = document.getElementById('comments-container');
     listComments.innerHTML= '';
@@ -41,6 +53,43 @@ function getComments() {
     });
 });
 }
+
+function createListElement(text) {
+  const liElement = document.createElement('p');
+  liElement.innerText = text;
+
+  return liElement;
+}
+function createLink(text) {
+  const liElement = document.createElement('a');
+  liElement.innerText = text;
+  return liElement;
+}
+
+function getStatus(){
+    fetch('/login-status', {method: 'GET'})
+    .then(response => response.text())
+    .then((status) => {
+        console.log(status)
+
+        var i = 0;
+        var input_elems = document.getElementsByTagName("input");
+
+        if(status == 0) {
+            for(elem of input_elems){ //Hide the input elements until the user logs in
+                type_value = elem.getAttributeNode("type");
+                type_value.value = "hidden";
+        }
+            link = document.getElementById("anchor");
+            link.innerText="Log in";
+            } 
+        else {
+            link = document.getElementById("anchor");
+            link.innerText="Log Out";
+            type_value = link.getAttributeNode("href");
+            type_value.value = "/logout";
+        }
+    });
 
 function createParagraphElement(text) {
   const paraElement = document.createElement('p');
