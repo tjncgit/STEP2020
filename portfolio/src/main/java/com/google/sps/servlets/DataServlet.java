@@ -90,7 +90,7 @@ public class DataServlet extends HttpServlet {
         System.err.println("Could not convert to int: " + maxCommentsString);
         return -1;
     }
-    return maxComments;
+      return maxComments;
   }
 
 
