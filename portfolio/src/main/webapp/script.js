@@ -187,7 +187,6 @@ function createMap() {
       "Japan is an island country in East Asia located in the northwest Pacific Ocean. It borders the Sea of Japan to the west, and extends from the Sea of Okhotsk in the north to the East China Sea and Taiwan in the south."
     ];
   
-
   var len = locations.length;
   var i;
   var locationMarker;
@@ -197,7 +196,6 @@ function createMap() {
       locationInfoWindow = addInfoWindow(infoWindowContent[i]);
       markerListener(locationMarker, locationInfoWindow, map);
    }
-  
 }
 
 function addMarker(coord1, coord2, mMap ){
