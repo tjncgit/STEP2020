@@ -50,8 +50,8 @@ function getComments() {
 }
 
 function createParagraphElement(text) {
-  const liElement = document.createElement('p');
-  liElement.innerText = text;
+  const paragraphElement = document.createElement('p');
+  paragraphElement.innerText = text;
 
   return liElement;
 }
