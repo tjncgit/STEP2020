@@ -48,7 +48,6 @@ public class Users extends HttpServlet {
       response.getWriter().println("<p>Logout <a href=\"" + logoutUrl + "\">here</a>.</p>");
     } else {
       String loginUrl = userService.createLoginURL("/users");
-      
       response.sendRedirect(loginUrl);
     }
   } 
