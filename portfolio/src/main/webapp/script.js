@@ -184,7 +184,7 @@ function createMap() {
   var locationInfoWindow;
   for (i = 0; i < len; i++) {
       locationMarker = addMarker(locations[i][0], locations[i][1], map);
-      locationInfoWindow = addInfoWindow(locations[2]);
+      locationInfoWindow = addInfoWindow(locations[i][2]);
       markerListener(locationMarker, locationInfoWindow, map);
    }
 }
