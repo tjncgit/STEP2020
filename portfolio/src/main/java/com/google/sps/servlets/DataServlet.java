@@ -51,9 +51,8 @@ public class DataServlet extends HttpServlet {
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
 
-    ArrayList<String> comments = new ArrayList<String>();
-    for (Entity commentEntity : results.asIterable())
-     {
+    List comments = new ArrayList<String>();
+    for (Entity commentEntity : results.asIterable()) {
       String comment = (String) commentEntity.getProperty("comment");
       String email = (String) commentEntity.getProperty("email");
       comments.add(String.format("%s\n\n %s", email, comment));
@@ -86,10 +85,10 @@ public class DataServlet extends HttpServlet {
       int maxComments;
       try {
         maxComments = Integer.parseInt(maxCommentsString);
-    } catch (NumberFormatException e) {
+      } catch (NumberFormatException e) {
         System.err.println("Could not convert to int: " + maxCommentsString);
         return -1;
-    }
+      }
       return maxComments;
   }
 
