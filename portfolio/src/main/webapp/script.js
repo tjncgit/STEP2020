@@ -28,10 +28,8 @@ function addRandomGreeting() {
 }
 
 function getParameters(){
-    let param1 = document.getElementById('param1').value,
-     param2 = document.getElementById('param2').value;
-    console.log(param1);
-    console.log(param2);
+    const param1 = document.getElementById('param1').value,
+        param2 = document.getElementById('param2').value;
 
     return [param1, param2];
 }
@@ -174,17 +172,10 @@ function createMap() {
   });
   
   var locations = [
-    [5.9631, 10.1591],
-    [25.2048, 55.2708],
-    [16.5004, 151.7415],
-    [35.6804, 139.7690]
-    ];
-
-  var infoWindowContent = [
-      "Cameroon, on the Gulf of Guinea, is a Central African country of varied terrain and wildlife. Its inland capital, Yaoundé, and its biggest city, the seaport Douala, are transit points to ecotourism sites as well as beach resorts like Kribi – near the Chutes de la Lobé waterfalls, which plunge directly into the sea – and Limbe, where the Limbe Wildlife Centre houses rescued primates.",
-      "Dubai is a city and emirate in the United Arab Emirates known for luxury shopping, ultramodern architecture and a lively nightlife scene. Burj Khalifa, an 830m-tall tower, dominates the skyscraper-filled skyline. At its foot lies Dubai Fountain, with jets and lights choreographed to music. On artificial islands just offshore is Atlantis, The Palm, a resort with water and marine-animal parks",
-      "Bora Bora is a small South Pacific island northwest of Tahiti in French Polynesia. Surrounded by sand-fringed motus (islets) and a turquoise lagoon protected by a coral reef, it’s known for its scuba diving. It's also a popular luxury resort destination where some guest bungalows are perched over the water on stilts. At the island's center rises Mt. Otemanu, a 727m dormant volcano.",
-      "Japan is an island country in East Asia located in the northwest Pacific Ocean. It borders the Sea of Japan to the west, and extends from the Sea of Okhotsk in the north to the East China Sea and Taiwan in the south."
+    [5.9631, 10.1591, "Cameroon, on the Gulf of Guinea, is a Central African country of varied terrain and wildlife. Its inland capital, Yaoundé, and its biggest city, the seaport Douala, are transit points to ecotourism sites as well as beach resorts like Kribi – near the Chutes de la Lobé waterfalls, which plunge directly into the sea – and Limbe, where the Limbe Wildlife Centre houses rescued primates."],
+    [25.2048, 55.2708, "Dubai is a city and emirate in the United Arab Emirates known for luxury shopping, ultramodern architecture and a lively nightlife scene. Burj Khalifa, an 830m-tall tower, dominates the skyscraper-filled skyline. At its foot lies Dubai Fountain, with jets and lights choreographed to music. On artificial islands just offshore is Atlantis, The Palm, a resort with water and marine-animal parks"],
+    [16.5004, 151.7415, "Bora Bora is a small South Pacific island northwest of Tahiti in French Polynesia. Surrounded by sand-fringed motus (islets) and a turquoise lagoon protected by a coral reef, it’s known for its scuba diving. It's also a popular luxury resort destination where some guest bungalows are perched over the water on stilts. At the island's center rises Mt. Otemanu, a 727m dormant volcano."],
+    [35.6804, 139.7690, "Japan is an island country in East Asia located in the northwest Pacific Ocean. It borders the Sea of Japan to the west, and extends from the Sea of Okhotsk in the north to the East China Sea and Taiwan in the south."]
     ];
   
   var len = locations.length;
@@ -193,7 +184,7 @@ function createMap() {
   var locationInfoWindow;
   for (i = 0; i < len; i++) {
       locationMarker = addMarker(locations[i][0], locations[i][1], map);
-      locationInfoWindow = addInfoWindow(infoWindowContent[i]);
+      locationInfoWindow = addInfoWindow(locations[2]);
       markerListener(locationMarker, locationInfoWindow, map);
    }
 }
