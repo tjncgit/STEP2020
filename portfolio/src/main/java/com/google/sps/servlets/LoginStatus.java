@@ -39,11 +39,12 @@ public class LoginStatus extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException{
         response.setContentType("application/json");
-
+        boolean statusBool;
+    
         if(userService.isUserLoggedIn()){
             String userEmail = userService.getCurrentUser().getEmail();
             userLoginBool.put(userEmail, true);
-            boolean statusBool = userLoginBool.get(userEmail);
+            statusBool = userLoginBool.get(userEmail);
         } 
         response.getWriter().println(statusBool);
 }
