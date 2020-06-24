@@ -38,7 +38,6 @@ function getComments() {
   fetch('/data')  // sends a request to /my-data-url
   .then(response => response.json()) // parses the response as JSON
   .then((comments) => { // now we can reference the fields in myObject!
-    console.log(comments);
 
     const listComments = document.getElementById('comments-container');
     listComments.innerHTML= '';
@@ -66,21 +65,20 @@ function getStatus(){
     fetch('/status', {method: 'GET'})
     .then(response => response.text())
     .then((status) => {
-        console.log(status)
         var input_elems = document.getElementsByTagName("input");
 
-        if (status == 0) {
-        for (elem of input_elems) { //Hide the input elements until the user logs in
-            type_value = elem.getAttributeNode("type");
-            type_value.value = "hidden";
-        }
-            link = document.getElementById("anchor");
-            link.innerText="Log in To Comment";
-        } else {
-            link = document.getElementById("anchor");
+        if(status == true) {
+					link = document.getElementById("anchor");
             link.innerText="Log Out";
             type_value = link.getAttributeNode("href");
             type_value.value = "/logout";
+        } else {
+					for(elem of input_elems){ //Hide the input elements until the user logs in
+                type_value = elem.getAttributeNode("type");
+                type_value.value = "hidden";
+            }
+            link = document.getElementById("anchor");
+            link.innerText="Log in To Comment";
         }
     });
 }
