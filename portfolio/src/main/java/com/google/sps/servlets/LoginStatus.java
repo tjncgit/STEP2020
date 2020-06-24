@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/login-status")
 public class LoginStatus extends HttpServlet {
-  Map<String, Boolean> userLoginBool = new HashMap<String, Boolean>();
+  private Map<String, Boolean> userLoginBool = new HashMap<String, Boolean>();
   private UserService userService = UserServiceFactory.getUserService();
   
   @Override
